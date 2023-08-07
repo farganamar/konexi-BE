@@ -1,5 +1,6 @@
 const serializeLogin = (data) => ({
   username: data.username,
+  email: data.email,
   access_token: data.access_token || '',
 });
 

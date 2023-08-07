@@ -1,18 +1,57 @@
 const shortId = require("shortid-36");
 const bcrypt = require("../../helpers/bcrypt");
-const Dao = require('./dao')
+const fs = require('fs')
+const Dao = require('./dao');
+const putObject = require("../../drivers/s3/putObject");
+const headObject = require("../../drivers/s3/headObject");
 
-const filePath = 'src/domains/authentication/business'
+const filePath = 'src/domains/users/business'
 
 module.exports = class {
-  constructor({
-    UsersModel,
-    jwt
-  }) {
-    this.dao = new Dao({
-      UsersModel
-    });
-    this.jwt = jwt
+  constructor() {
+    this.dao = new Dao();
+  }
+
+  async updateProfile(argData) {
+    try {
+      let avatar;
+      const data = argData
+      const file = data.file
+      const user = this.dao.findById(data.aud)
+
+      if (!user) throw new Error('User not found');
+
+      if (file) {
+        let bufferFile = fs.readFileSync(file.path)
+        const bucket = process.env.S3_PUBLIC_BUCKET
+
+        console.log(file)
+        await putObject({
+          bucket,
+          key: file.filename,
+          buffer: bufferFile,
+          contentType: file.mimetype,
+          isPublic: true,
+        });
+
+        await headObject({
+          bucket,
+          key: file.filename,
+        });
+
+        avatar = file.filename;
+        fs.unlinkSync(file.path);
+      }
+
+      await this.dao.updateProfile({ id: data.aud, avatar })
+
+      return true;
+
+    } catch (error) {
+      console.error(`${filePath}/updateProfile`, error)
+
+      throw error;      
+    }
   }
 
   async register(argData) {

@@ -79,10 +79,11 @@ paths:
             examples:
               Create User Bob Fellow:
                 value:
-                  firstName: Bob
-                  lastName: Fellow
+                  first_name: Bob
+                  username: Bob123
+                  last_name: Fellow
                   email: bob.fellow@gmail.com
-                  dateOfBirth: '1996-08-24'
+                  password: bob123
         description: Post the necessary fields for the API to create a new user.
       description: Create a new user.
     parameters: []
@@ -161,6 +162,63 @@ paths:
                   dateOfBirth: '1996-08-24'
         description: Post the necessary fields for the API to create a new user.
       description: Create a new user.
+    parameters: []
+  /v1/profile/update:
+    post:
+      summary: Update User
+      operationId: update-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                      access_token:
+                        type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+                    data:
+                      username: bob
+                      access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI2NGNlNjRhZjQxZWJhNDJmYjY3YWM2ZDgiLCJpYXQiOjE2OTEyNDc3OTEsImV4cCI6MTY5MTMzNDE5MX0.Z8FsWlBSnXqbLHs_jnfO4Q68ihbfakTHOIsdM2TDpQ0
+              examples:
+                New User Bob Fellow:
+                  value:
+                    id: 12
+                    firstName: Bob
+                    lastName: Fellow
+                    email: bob.fellow@gmail.com
+                    dateOfBirth: '1996-08-24'
+                    emailVerified: false
+                    createDate: '2020-11-18'
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+        '':
+          description: ''
+      description: Create a new user.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
     parameters: []
 components:
   schemas:

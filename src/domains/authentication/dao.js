@@ -59,4 +59,33 @@ module.exports = class {
       throw error;
     }
   }
+
+  async findByEmail(email) {
+    try {
+      const user = await this.Users.findOne({
+        $or: [
+          { email },
+          { email: normalizeEmail(email) },          
+        ]        
+      })
+
+      return user;
+    } catch (error) {
+      console.error(`${filePath}/findByEmail`, error)
+
+      throw error;
+    }
+  }
+
+  async findByUsername(username) {
+    try {
+      const user = await this.Users.findOne({ username })
+
+      return user;
+    } catch (error) {
+      console.error(`${filePath}/findByUsername`, error)
+
+      throw error;
+    }    
+  }
 };

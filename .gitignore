@@ -7,6 +7,9 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+# Temporary Folder
+.temp_uploads
+
 
 # Package
 package-lock.json

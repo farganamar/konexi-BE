@@ -7,7 +7,6 @@ const router = expres.Router()
 router.get('/', (req, res) => res.send(`API for Konexi BE test`));
 
 Object.keys(routesV1).forEach((routeName) => {
-  console.log(`v1/${changeCase.paramCase(routeName)}`)
   router.use(`/v1/${changeCase.paramCase(routeName)}`, require(`./v1/${routeName}`)())
 })
 
