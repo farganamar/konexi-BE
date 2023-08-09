@@ -86,6 +86,8 @@ paths:
                   password: bob123
         description: Post the necessary fields for the API to create a new user.
       description: Create a new user.
+      tags:
+        - Auth
     parameters: []
   /v1/auth/login:
     post:
@@ -108,6 +110,8 @@ paths:
                     properties:
                       username:
                         type: string
+                      email:
+                        type: string
                       access_token:
                         type: string
                 x-examples:
@@ -115,18 +119,18 @@ paths:
                     status: true
                     message: ok
                     data:
-                      username: bob
-                      access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI2NGNlNjRhZjQxZWJhNDJmYjY3YWM2ZDgiLCJpYXQiOjE2OTEyNDc3OTEsImV4cCI6MTY5MTMzNDE5MX0.Z8FsWlBSnXqbLHs_jnfO4Q68ihbfakTHOIsdM2TDpQ0
+                      username: Bob123
+                      email: bob.fellow@gmail.com
+                      access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI2NGQxMGFiMDE2ZWQ3ZDlhYjhkNDY4OTUiLCJpYXQiOjE2OTE1Mzg4MTIsImV4cCI6MTY5MTYyNTIxMn0.vuggz3pHT4MFcI7FmfYuU-h4BVGlfZHW2g_eN650Nhk
               examples:
-                New User Bob Fellow:
+                Example 1:
                   value:
-                    id: 12
-                    firstName: Bob
-                    lastName: Fellow
-                    email: bob.fellow@gmail.com
-                    dateOfBirth: '1996-08-24'
-                    emailVerified: false
-                    createDate: '2020-11-18'
+                    status: true
+                    message: ok
+                    data:
+                      username: Bob123
+                      email: bob.fellow@gmail.com
+                      access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI2NGQxMGFiMDE2ZWQ3ZDlhYjhkNDY4OTUiLCJpYXQiOjE2OTE1Mzg4MTIsImV4cCI6MTY5MTYyNTIxMn0.vuggz3pHT4MFcI7FmfYuU-h4BVGlfZHW2g_eN650Nhk
         '400':
           description: Missing Required Information
         '409':
@@ -139,29 +143,23 @@ paths:
             schema:
               type: object
               properties:
-                firstName:
+                username:
                   type: string
-                lastName:
+                password:
                   type: string
-                email:
-                  type: string
-                dateOfBirth:
-                  type: string
-                  format: date
-              required:
-                - firstName
-                - lastName
-                - email
-                - dateOfBirth
+              x-examples:
+                Example 1:
+                  username: Bob123
+                  password: bob123
             examples:
               Create User Bob Fellow:
                 value:
-                  firstName: Bob
-                  lastName: Fellow
-                  email: bob.fellow@gmail.com
-                  dateOfBirth: '1996-08-24'
-        description: Post the necessary fields for the API to create a new user.
+                  username: Bob123
+                  password: bob123
+        description: Login User
       description: Create a new user.
+      tags:
+        - Auth
     parameters: []
   /v1/profile/update:
     post:
@@ -169,7 +167,7 @@ paths:
       operationId: update-user
       responses:
         '200':
-          description: User Created
+          description: Updated Profile
           content:
             application/json:
               schema:
@@ -182,27 +180,41 @@ paths:
                   data:
                     type: object
                     properties:
+                      id:
+                        type: string
                       username:
                         type: string
-                      access_token:
+                      email:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      avatar:
                         type: string
                 x-examples:
                   Example 1:
                     status: true
                     message: ok
                     data:
-                      username: bob
-                      access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiI2NGNlNjRhZjQxZWJhNDJmYjY3YWM2ZDgiLCJpYXQiOjE2OTEyNDc3OTEsImV4cCI6MTY5MTMzNDE5MX0.Z8FsWlBSnXqbLHs_jnfO4Q68ihbfakTHOIsdM2TDpQ0
+                      id: 64d2d52a16ed7d9ab8d491f8
+                      username: Fargan123
+                      email: amar.fargan@gmail.com
+                      first_name: Fargan
+                      last_name: Fellow
+                      avatar: 'http://localhost:9291/test/4b663ef9cbb0e3c87b78597b8286291e_P3BWWXX99.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=9Oz74O3mlS5HzQ4X001e%2F20230808%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20230808T235453Z&X-Amz-Expires=300&X-Amz-Signature=bf6df7a5e3b012c9b3fb9027481b125a53d3f5dff46d07dedcb29dac3f0a89c5&X-Amz-SignedHeaders=host'
               examples:
-                New User Bob Fellow:
+                Example 1:
                   value:
-                    id: 12
-                    firstName: Bob
-                    lastName: Fellow
-                    email: bob.fellow@gmail.com
-                    dateOfBirth: '1996-08-24'
-                    emailVerified: false
-                    createDate: '2020-11-18'
+                    status: true
+                    message: ok
+                    data:
+                      id: 64d2d52a16ed7d9ab8d491f8
+                      username: Fargan123
+                      email: amar.fargan@gmail.com
+                      first_name: Fargan
+                      last_name: Fellow
+                      avatar: 'http://localhost:9291/test/4b663ef9cbb0e3c87b78597b8286291e_P3BWWXX99.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=9Oz74O3mlS5HzQ4X001e%2F20230808%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20230808T235453Z&X-Amz-Expires=300&X-Amz-Signature=bf6df7a5e3b012c9b3fb9027481b125a53d3f5dff46d07dedcb29dac3f0a89c5&X-Amz-SignedHeaders=host'
         '400':
           description: Missing Required Information
         '409':
@@ -219,7 +231,486 @@ paths:
                 file:
                   type: string
                   format: binary
+      tags:
+        - Profile
     parameters: []
+  /v1/post/create:
+    post:
+      summary: Create new post
+      operationId: create-post
+      responses:
+        '200':
+          description: Create new Post
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+              examples: {}
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+        '':
+          description: ''
+      description: Create a new post.
+      tags:
+        - post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              x-examples:
+                Example 1:
+                  content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+            examples:
+              Example 1:
+                value:
+                  content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+        description: ''
+    parameters: []
+  '/v1/post/{id}/update':
+    post:
+      summary: Update post
+      operationId: update-post
+      responses:
+        '200':
+          description: update new Post
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+              examples: {}
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+        '':
+          description: ''
+      description: Update post
+      tags:
+        - post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              x-examples:
+                Example 1:
+                  content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+            examples:
+              Example 1:
+                value:
+                  content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+        description: ''
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+  '/v1/post/{id}/like':
+    post:
+      summary: Like Post
+      operationId: like-post
+      responses:
+        '200':
+          description: update new Post
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+              examples: {}
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+        '':
+          description: ''
+      description: Like post
+      tags:
+        - post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+              properties:
+                like:
+                  type: boolean
+            examples:
+              Example 1:
+                value:
+                  like: true
+        description: ''
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+  '/v1/post/{id}/comment':
+    post:
+      summary: Comment Post
+      operationId: like-post
+      responses:
+        '200':
+          description: update new Post
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+              examples: {}
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+        '':
+          description: ''
+      description: Comment post
+      tags:
+        - post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+              properties:
+                comment:
+                  type: string
+            examples:
+              Example 1:
+                value:
+                  comment: nice post
+        description: ''
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+  /v1/post/user:
+    parameters: []
+    get:
+      summary: Get User Post
+      operationId: get-v1-post-id-comment---copy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        content:
+                          type: string
+                        user_id:
+                          type: string
+                        likes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              user_id:
+                                type: string
+                              username:
+                                type: string
+                        comments:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              username:
+                                type: string
+                              userId:
+                                type: string
+                              comment:
+                                type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+                    data:
+                      - id: 64d33dcc280680ac87cc5605
+                        content: Lorem Ipsum aaaaa
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes:
+                          - user_id: 64d10ab016ed7d9ab8d46895
+                            username: Bob123
+                        comments:
+                          - username: Bob123
+                            userId: 64d10ab016ed7d9ab8d46895
+                            comment: LALALALA
+                          - username: Fargan123
+                            userId: 64d2d52a16ed7d9ab8d491f8
+                            comment: nice post
+                      - id: 64d368e10a76b7a250f9aac0
+                        content: BLABKAKAKAK
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes: []
+                        comments: []
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: ok
+                    data:
+                      - id: 64d33dcc280680ac87cc5605
+                        content: Lorem Ipsum aaaaa
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes:
+                          - user_id: 64d10ab016ed7d9ab8d46895
+                            username: Bob123
+                        comments:
+                          - username: Bob123
+                            userId: 64d10ab016ed7d9ab8d46895
+                            comment: LALALALA
+                          - username: Fargan123
+                            userId: 64d2d52a16ed7d9ab8d491f8
+                            comment: nice post
+                      - id: 64d368e10a76b7a250f9aac0
+                        content: BLABKAKAKAK
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes: []
+                        comments: []
+      tags:
+        - post
+  /v1/post:
+    parameters: []
+    get:
+      summary: Get All post
+      operationId: get-v1-post-id-comment---copy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        content:
+                          type: string
+                        user_id:
+                          type: string
+                        likes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              user_id:
+                                type: string
+                              username:
+                                type: string
+                        comments:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              username:
+                                type: string
+                              userId:
+                                type: string
+                              comment:
+                                type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+                    data:
+                      - id: 64d33dcc280680ac87cc5605
+                        content: Lorem Ipsum aaaaa
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes:
+                          - user_id: 64d10ab016ed7d9ab8d46895
+                            username: Bob123
+                        comments:
+                          - username: Bob123
+                            userId: 64d10ab016ed7d9ab8d46895
+                            comment: LALALALA
+                          - username: Fargan123
+                            userId: 64d2d52a16ed7d9ab8d491f8
+                            comment: nice post
+                      - id: 64d368e10a76b7a250f9aac0
+                        content: BLABKAKAKAK
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes: []
+                        comments: []
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: ok
+                    data:
+                      - id: 64d33dcc280680ac87cc5605
+                        content: Lorem Ipsum aaaaa
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes:
+                          - user_id: 64d10ab016ed7d9ab8d46895
+                            username: Bob123
+                        comments:
+                          - username: Bob123
+                            userId: 64d10ab016ed7d9ab8d46895
+                            comment: LALALALA
+                          - username: Fargan123
+                            userId: 64d2d52a16ed7d9ab8d491f8
+                            comment: nice post
+                      - id: 64d368e10a76b7a250f9aac0
+                        content: BLABKAKAKAK
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes: []
+                        comments: []
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        content:
+                          type: string
+                        user_id:
+                          type: string
+                        likes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              user_id:
+                                type: string
+                              username:
+                                type: string
+                        comments:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              username:
+                                type: string
+                              userId:
+                                type: string
+                              comment:
+                                type: string
+                        created_at:
+                          type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+                    data:
+                      - id: 64d2d4d7d1c6383f4c38d937
+                        content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+                        user_id: 64d10ab016ed7d9ab8d46895
+                        likes:
+                          - user_id: 64d2d52a16ed7d9ab8d491f8
+                            username: Fargan123
+                        comments: []
+                        created_at: '2023-08-08T23:50:47.231Z'
+                      - id: 64d33dcc280680ac87cc5605
+                        content: Lorem Ipsum aaaaa
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes:
+                          - user_id: 64d10ab016ed7d9ab8d46895
+                            username: Bob123
+                        comments:
+                          - username: Bob123
+                            userId: 64d10ab016ed7d9ab8d46895
+                            comment: LALALALA
+                          - username: Fargan123
+                            userId: 64d2d52a16ed7d9ab8d491f8
+                            comment: nice post
+                        created_at: '2023-08-09T07:18:36.235Z'
+      tags:
+        - post
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: keyword
+      description: ''
 components:
   schemas:
     User:
@@ -262,3 +753,9 @@ components:
         - lastName
         - email
         - emailVerified
+  securitySchemes:
+    'API Key ':
+      type: http
+      scheme: bearer
+security:
+  - 'API Key ': []

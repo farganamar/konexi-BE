@@ -59,6 +59,10 @@ module.exports = class {
         user = await this.dao.findByUsername(username)
       }
 
+      if (!user) {
+        throw new Error("User not found")
+      }
+      
       const isMatch = await bcrypt.validatePassword(password, user.password)
 
       if (!isMatch) {

@@ -49,6 +49,18 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },  
 )
 
+async function deleteUserRelation(next) {
+  try {
+    const id = mongoose.Types.ObjectId(this._conditions._id);
+
+    await mongoose.model('Posts').find({ user_id: id }).deleteMany();
+
+    next();
+  } catch (error) {
+    next(error)
+  }
+}
+
 userSchema.pre('find', function find() {
   this.where({ deleted_at: null });
 });
@@ -57,5 +69,7 @@ userSchema.pre('findOne', function findOne() {
   this.where({ deleted_at: null });
 });
 
+
+userSchema.pre('deleteOne', deleteUserRelation);
 
 module.exports = mongoose.model('Users', userSchema);

@@ -1,6 +1,8 @@
 const JWT = require('jsonwebtoken');
 const ms = require('ms')
-const { setCacheData, getCacheData, deleteCacheData } = require('../../drivers/cache');
+const { setCacheData, getCacheData } = require('../../drivers/cache');
+
+const filePath = "/helpers/jwt"
 
 module.exports = {
   generateAccessToken: (payload) =>

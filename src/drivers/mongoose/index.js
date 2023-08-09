@@ -16,8 +16,6 @@ db.on('error', (err) => {
   console.error('mongoDB error message : ', err.message)
 });
 db.once('open', () => {
-  console.log(process.env.DATABASE_NAME)
-
   console.log('Connected to MongoDB database!')
   require('require-dir')('./models');
 });

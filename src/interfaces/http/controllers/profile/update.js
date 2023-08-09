@@ -1,4 +1,5 @@
-const ProfileBusiness = require('../../../../domains/users/business');
+const ProfileBusiness = require('../../../../domains/user/business');
+const { serialize } = require('../../../../serializer/profile/detail');
 const updateProfileValidator = require('../../validators/profile/update')
 
 const filePath = 'src/interfaces/http/controllers/profile';
@@ -23,7 +24,8 @@ module.exports = async(req, res, next) => {
       aud,
     }
 
-    const result = profileBusiness.updateProfile(params)
+    let result = await profileBusiness.updateProfile(params)
+    result = serialize(result)
 
     res.send({
       status: true,

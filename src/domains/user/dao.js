@@ -21,7 +21,6 @@ module.exports = class {
 
   async updateProfile(data) {
     try {
-      console.log(data)
       const user = await this.Users.findOneAndUpdate(
         {
           _id: data.id

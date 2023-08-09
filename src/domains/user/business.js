@@ -25,7 +25,6 @@ module.exports = class {
         let bufferFile = fs.readFileSync(file.path)
         const bucket = process.env.S3_PUBLIC_BUCKET
 
-        console.log(file)
         await putObject({
           bucket,
           key: file.filename,
@@ -43,9 +42,9 @@ module.exports = class {
         fs.unlinkSync(file.path);
       }
 
-      await this.dao.updateProfile({ id: data.aud, avatar })
+      const result = await this.dao.updateProfile({ id: data.aud, avatar })
 
-      return true;
+      return result;
 
     } catch (error) {
       console.error(`${filePath}/updateProfile`, error)
