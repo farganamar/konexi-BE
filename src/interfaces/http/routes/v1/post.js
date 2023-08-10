@@ -7,6 +7,7 @@ const like = require('../../controllers/post/like');
 const comment = require('../../controllers/post/comment');
 const userPost = require('../../controllers/post/userPost');
 const search = require('../../controllers/post/search');
+const getFeed = require('../../controllers/post/getFeed');
 
 module.exports = () => {
   const router = express.Router()
@@ -18,6 +19,7 @@ module.exports = () => {
   router.delete('/:id', authentication({}), deletePostController)
   router.get('/user', authentication({}), userPost)
   router.get('', authentication({}), search)
+  router.get('/get-feed', authentication({}), getFeed)
 
   return router;
 }

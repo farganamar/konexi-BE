@@ -163,4 +163,28 @@ module.exports = class {
       throw error;         
     }
   }
+
+  async getFeed(userId) {
+   try {
+      const user = await this.Users.findById(userId)
+      const following = user.following
+
+      // find following user post
+      const posts = await this.Posts.find({
+        $or: [
+          {
+            user_id: {$in: following }
+          },
+          {
+            user_id: user._id
+          }
+        ]
+      }).sort({ createdAt: -1 })
+      return posts
+    } catch (error) {
+      console.error(`${filePath}/getFeed`, error?.message || error);
+
+      throw error;         
+    }
+  }
 };

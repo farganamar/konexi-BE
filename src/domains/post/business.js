@@ -110,6 +110,18 @@ module.exports = class {
     }
   }  
 
+  async getFeed(userId) {
+    try {
+      const posts = this.dao.getFeed(userId)
+
+      return posts      
+    } catch (error) {
+      console.error(`${filePath}/getFeed`, error)
+
+      throw error;      
+    }
+  }    
+
 };
 
 

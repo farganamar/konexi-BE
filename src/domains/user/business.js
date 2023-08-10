@@ -121,6 +121,30 @@ module.exports = class {
     }
   }
 
+  async follow(userId, currentUser) {
+    try {
+      const user = this.dao.follow(userId, currentUser)
+
+      return user      
+    } catch (error) {
+      console.error(`${filePath}/follow`, error)
+
+      throw error;      
+    }
+  }
+
+    async unfollow(userId, currentUser) {
+    try {
+      const user = this.dao.unFollow(userId, currentUser)
+
+      return user      
+    } catch (error) {
+      console.error(`${filePath}/unfollow`, error)
+
+      throw error;      
+    }
+  }
+
 };
 
 

@@ -234,6 +234,99 @@ paths:
       tags:
         - Profile
     parameters: []
+  /v1/profile/follow/user:
+    post:
+      summary: Follow User
+      operationId: follow-user
+      responses:
+        '200':
+          description: Updated Profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: ok
+                    data:
+                      id: 64d2d52a16ed7d9ab8d491f8
+                      username: Fargan123
+                      email: amar.fargan@gmail.com
+                      first_name: Fargan
+                      last_name: Fellow
+                      avatar: 'http://localhost:9291/test/4b663ef9cbb0e3c87b78597b8286291e_P3BWWXX99.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=9Oz74O3mlS5HzQ4X001e%2F20230808%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20230808T235453Z&X-Amz-Expires=300&X-Amz-Signature=bf6df7a5e3b012c9b3fb9027481b125a53d3f5dff46d07dedcb29dac3f0a89c5&X-Amz-SignedHeaders=host'
+        '400':
+          description: Missing Required Information
+        '409':
+          description: Email Already Taken
+        '':
+          description: ''
+      description: Follow User
+      tags:
+        - Profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+              x-examples:
+                Example 1:
+                  user_id: 64d10ab016ed7d9ab8d46895
+            examples:
+              Example 1:
+                value:
+                  user_id: 64d10ab016ed7d9ab8d46895
+    parameters: []
+  /v1/profile/unfollow/user:
+    parameters: []
+    patch:
+      summary: ''
+      operationId: patch-v1-profile-unfollow-user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+              x-examples:
+                Example 1:
+                  user_id: 64d10ab016ed7d9ab8d46895
+            examples:
+              Example 1:
+                value:
+                  user_id: 64d10ab016ed7d9ab8d46895
   /v1/post/create:
     post:
       summary: Create new post
@@ -710,6 +803,175 @@ paths:
             type: string
           in: query
           name: keyword
+      description: ''
+  /v1/post/get-feed:
+    parameters: []
+    get:
+      summary: Get Feed
+      operationId: get-v1-post-id-comment---copy
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        content:
+                          type: string
+                        user_id:
+                          type: string
+                        likes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              user_id:
+                                type: string
+                              username:
+                                type: string
+                        comments:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              username:
+                                type: string
+                              userId:
+                                type: string
+                              comment:
+                                type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+                    data:
+                      - id: 64d33dcc280680ac87cc5605
+                        content: Lorem Ipsum aaaaa
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes:
+                          - user_id: 64d10ab016ed7d9ab8d46895
+                            username: Bob123
+                        comments:
+                          - username: Bob123
+                            userId: 64d10ab016ed7d9ab8d46895
+                            comment: LALALALA
+                          - username: Fargan123
+                            userId: 64d2d52a16ed7d9ab8d491f8
+                            comment: nice post
+                      - id: 64d368e10a76b7a250f9aac0
+                        content: BLABKAKAKAK
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes: []
+                        comments: []
+              examples:
+                Example 1:
+                  value:
+                    status: true
+                    message: ok
+                    data:
+                      - id: 64d33dcc280680ac87cc5605
+                        content: Lorem Ipsum aaaaa
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes:
+                          - user_id: 64d10ab016ed7d9ab8d46895
+                            username: Bob123
+                        comments:
+                          - username: Bob123
+                            userId: 64d10ab016ed7d9ab8d46895
+                            comment: LALALALA
+                          - username: Fargan123
+                            userId: 64d2d52a16ed7d9ab8d491f8
+                            comment: nice post
+                      - id: 64d368e10a76b7a250f9aac0
+                        content: BLABKAKAKAK
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes: []
+                        comments: []
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        content:
+                          type: string
+                        user_id:
+                          type: string
+                        likes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              user_id:
+                                type: string
+                              username:
+                                type: string
+                        comments:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              username:
+                                type: string
+                              userId:
+                                type: string
+                              comment:
+                                type: string
+                        created_at:
+                          type: string
+                x-examples:
+                  Example 1:
+                    status: true
+                    message: ok
+                    data:
+                      - id: 64d2d4d7d1c6383f4c38d937
+                        content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+                        user_id: 64d10ab016ed7d9ab8d46895
+                        likes:
+                          - user_id: 64d2d52a16ed7d9ab8d491f8
+                            username: Fargan123
+                        comments: []
+                        created_at: '2023-08-08T23:50:47.231Z'
+                      - id: 64d33dcc280680ac87cc5605
+                        content: Lorem Ipsum aaaaa
+                        user_id: 64d2d52a16ed7d9ab8d491f8
+                        likes:
+                          - user_id: 64d10ab016ed7d9ab8d46895
+                            username: Bob123
+                        comments:
+                          - username: Bob123
+                            userId: 64d10ab016ed7d9ab8d46895
+                            comment: LALALALA
+                          - username: Fargan123
+                            userId: 64d2d52a16ed7d9ab8d491f8
+                            comment: nice post
+                        created_at: '2023-08-09T07:18:36.235Z'
+      tags:
+        - post
+      parameters: []
       description: ''
 components:
   schemas:
