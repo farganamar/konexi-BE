@@ -5,6 +5,11 @@ const cors = require('cors');
 const httpErrors = require('http-errors');
 const requestIp = require('request-ip');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+
+const swaggerPath = path.resolve(__dirname, '../../../docs/openapi.yaml');
+const swaggerDocument = YAML.load(swaggerPath);
 
 require('dotenv').config();
 const rawBody = require('./middlewares/rawBody');
@@ -42,6 +47,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => res.send(`API File for ${process.env.NODE_ENV}`));
 app.use(basePath, routes);
+
+app.use(`${basePath}api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
 
 app.use((req, res, next) => {
   next(httpErrors.NotFound());
